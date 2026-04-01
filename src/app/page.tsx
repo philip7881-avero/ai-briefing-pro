@@ -321,25 +321,44 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white">
       {/* NAV */}
-      <nav className="fixed top-0 left-0 right-0 bg-white/97 backdrop-blur-md border-b border-[#E2E8F0] z-50 px-4 sm:px-6 py-3">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <div>
-            <span className="font-bold text-[#1B4D3E] text-lg">AI Briefing Pro</span>
-            <span className="text-xs text-[#0D9488] ml-2 hidden sm:inline px-2 py-0.5 bg-[#F0FDFA] rounded-full">{finalIndustry}</span>
+      <nav className="fixed top-0 left-0 right-0 bg-white/97 backdrop-blur-md border-b border-[#E2E8F0] z-50 px-4 sm:px-6">
+        <div className="max-w-6xl mx-auto">
+          {/* Top row: logo + industry */}
+          <div className="flex items-center justify-between py-3">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-xl bg-[#F0FDFA] flex items-center justify-center">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0D9488" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                  <path d="M2 17l10 5 10-5"/>
+                  <path d="M2 12l10 5 10-5"/>
+                </svg>
+              </div>
+              <div>
+                <span className="font-bold text-[#1B4D3E] text-lg">AI Briefing Pro</span>
+                <span className="text-xs text-[#0D9488] ml-2 px-2 py-0.5 bg-[#F0FDFA] rounded-full">{finalIndustry}</span>
+              </div>
+            </div>
+            <button
+              onClick={() => { setBriefing(null); setStep(0); }}
+              className="text-sm text-[#4A5568] hover:text-[#0D9488] transition-colors"
+            >
+              Nuevo briefing
+            </button>
           </div>
-          <div className="flex items-center gap-1 sm:gap-2">
+          {/* Bottom row: big tabs */}
+          <div className="flex items-center gap-2 pb-3 overflow-x-auto">
             {TABS.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`px-2 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all ${
+                className={`flex items-center gap-2 px-5 py-3 rounded-xl text-base font-semibold transition-all whitespace-nowrap ${
                   activeTab === tab.id
-                    ? "bg-[#F0FDFA] text-[#0D9488] border border-[#0D9488]"
-                    : "text-[#4A5568] hover:bg-[#F7F7F8]"
+                    ? "bg-[#0D9488] text-white shadow-md shadow-[#0D9488]/20"
+                    : "bg-[#F7F7F8] text-[#4A5568] hover:bg-[#F0FDFA] hover:text-[#0D9488]"
                 }`}
               >
-                <span className="sm:hidden">{tab.icon}</span>
-                <span className="hidden sm:inline">{tab.icon} {tab.label}</span>
+                <span className="text-lg">{tab.icon}</span>
+                <span>{tab.label}</span>
               </button>
             ))}
           </div>
@@ -347,7 +366,7 @@ export default function Home() {
       </nav>
 
       {/* CONTENT */}
-      <main className="pt-20 pb-32 px-4 sm:px-6 max-w-6xl mx-auto">
+      <main className="pt-32 pb-32 px-4 sm:px-6 max-w-6xl mx-auto">
 
         {/* ===== RADAR ===== */}
         {activeTab === "radar" && (
