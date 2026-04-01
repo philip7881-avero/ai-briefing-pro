@@ -64,7 +64,7 @@ REGLAS ESTRICTAS:
 - NO inventes URLs — usa fuentes conocidas como sitios de noticias tech, blogs oficiales, etc.`;
 
   const result = await generateText({
-    model: anthropic("claude-sonnet-4-5-20250514"),
+    model: anthropic("claude-sonnet-4-6"),
     prompt,
     maxOutputTokens: 4000,
   });

@@ -21,7 +21,7 @@ REGLAS:
 - Fecha actual: ${new Date().toLocaleDateString("es-CL")}`;
 
   const result = streamText({
-    model: anthropic("claude-sonnet-4-5-20250514"),
+    model: anthropic("claude-sonnet-4-6"),
     system: systemPrompt,
     messages,
   });
