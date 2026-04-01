@@ -296,8 +296,33 @@ export default function Home() {
   if (step === 3) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white px-4">
+        <style>{`
+          @keyframes jodaWave {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            25% { transform: translateY(-18px) rotate(-3deg); }
+            50% { transform: translateY(0px) rotate(0deg); }
+            75% { transform: translateY(8px) rotate(2deg); }
+          }
+        `}</style>
         <div className="text-center">
-          <div className="w-16 h-16 mx-auto mb-6 rounded-full border-4 border-[#E2E8F0] border-t-[#0D9488] animate-spin"></div>
+          <div className="flex justify-center items-center gap-1 mb-6">
+            {"JODA".split("").map((letter, i) => (
+              <span
+                key={i}
+                className="text-[#0D9488] font-black"
+                style={{
+                  fontSize: "4rem",
+                  display: "inline-block",
+                  animation: "jodaWave 1.8s ease-in-out infinite",
+                  animationDelay: `${i * 0.2}s`,
+                  textShadow: "0 4px 15px rgba(13, 148, 136, 0.3)",
+                  letterSpacing: "0.05em",
+                }}
+              >
+                {letter}
+              </span>
+            ))}
+          </div>
           <h2 className="text-2xl font-bold text-[#1B4D3E] mb-2">Generando tu briefing...</h2>
           <p className="text-[#4A5568]">
             Analizando avances de IA para <strong>{finalIndustry}</strong>
@@ -508,14 +533,23 @@ export default function Home() {
 
       {/* ===== FLOATING CHAT ===== */}
       {!chatOpen && (
-        <button
-          onClick={() => setChatOpen(true)}
-          className="fixed bottom-6 right-6 w-16 h-16 bg-[#0D9488] text-white rounded-full shadow-xl shadow-[#0D9488]/30 hover:bg-[#14B8A6] hover:scale-110 transition-all duration-300 flex items-center justify-center z-50"
-        >
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-          </svg>
-        </button>
+        <>
+          <style>{`
+            @keyframes chatPulse {
+              0%, 100% { box-shadow: 0 0 15px rgba(234, 88, 12, 0.5), 0 0 30px rgba(234, 88, 12, 0.3), 0 10px 25px rgba(234, 88, 12, 0.4); }
+              50% { box-shadow: 0 0 25px rgba(234, 88, 12, 0.7), 0 0 50px rgba(234, 88, 12, 0.4), 0 10px 35px rgba(234, 88, 12, 0.5); }
+            }
+          `}</style>
+          <button
+            onClick={() => setChatOpen(true)}
+            className="fixed bottom-6 right-6 w-16 h-16 bg-[#EA580C] text-white rounded-full hover:bg-[#F97316] hover:scale-110 transition-all duration-300 flex items-center justify-center z-50"
+            style={{ animation: "chatPulse 2s ease-in-out infinite" }}
+          >
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+          </button>
+        </>
       )}
 
       {chatOpen && (
@@ -550,10 +584,28 @@ export default function Home() {
             {chatLoading && (
               <div className="flex justify-start">
                 <div className="bg-[#F7F7F8] border border-[#E2E8F0] px-4 py-3 rounded-2xl rounded-bl-md">
-                  <div className="flex gap-1.5">
-                    <div className="w-2 h-2 bg-[#0D9488] rounded-full animate-bounce" style={{ animationDelay: "0ms" }}></div>
-                    <div className="w-2 h-2 bg-[#0D9488] rounded-full animate-bounce" style={{ animationDelay: "150ms" }}></div>
-                    <div className="w-2 h-2 bg-[#0D9488] rounded-full animate-bounce" style={{ animationDelay: "300ms" }}></div>
+                  <style>{`
+                    @keyframes jodaWaveSmall {
+                      0%, 100% { transform: translateY(0px) rotate(0deg); }
+                      25% { transform: translateY(-6px) rotate(-2deg); }
+                      50% { transform: translateY(0px) rotate(0deg); }
+                      75% { transform: translateY(3px) rotate(1deg); }
+                    }
+                  `}</style>
+                  <div className="flex gap-0.5 items-center">
+                    {"JODA".split("").map((letter, i) => (
+                      <span
+                        key={i}
+                        className="text-[#0D9488] font-black text-sm"
+                        style={{
+                          display: "inline-block",
+                          animation: "jodaWaveSmall 1.8s ease-in-out infinite",
+                          animationDelay: `${i * 0.2}s`,
+                        }}
+                      >
+                        {letter}
+                      </span>
+                    ))}
                   </div>
                 </div>
               </div>
