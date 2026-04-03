@@ -113,20 +113,31 @@ export default function Home() {
     setChatInput("");
   };
 
+  const [errorMsg, setErrorMsg] = useState("");
+
   const fetchBriefing = async () => {
     setStep(3);
+    setErrorMsg("");
     try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 55000);
       const res = await fetch("/api/briefing", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ industry: finalIndustry, interests: selectedInterests }),
+        signal: controller.signal,
       });
+      clearTimeout(timeout);
       const data = await res.json();
       if (data.error) throw new Error(data.error);
+      if (!data.radar || !data.prompts) throw new Error("Respuesta incompleta");
       setBriefing(data);
       setStep(4);
-    } catch {
-      alert("Error generando el briefing. Intenta de nuevo.");
+    } catch (e) {
+      const msg = e instanceof Error && e.name === "AbortError"
+        ? "La generación tardó demasiado. Intenta de nuevo."
+        : "Error generando el briefing. Intenta de nuevo.";
+      setErrorMsg(msg);
       setStep(2);
     }
   };
@@ -276,6 +287,12 @@ export default function Home() {
             ))}
           </div>
 
+          {errorMsg && (
+            <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">
+              ⚠️ {errorMsg}
+            </div>
+          )}
+
           <button
             onClick={fetchBriefing}
             disabled={selectedInterests.length === 0}
@@ -285,7 +302,7 @@ export default function Home() {
                 : "bg-[#E2E8F0] text-[#CBD5E0] cursor-not-allowed"
             }`}
           >
-            Generar mi Briefing AI
+            {errorMsg ? "Reintentar" : "Generar mi Briefing AI"}
           </button>
         </div>
       </div>
